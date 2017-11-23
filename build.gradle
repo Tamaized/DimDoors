@@ -1,65 +1,85 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-apply plugin: 'forge'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.2.5-" + System.getenv("BUILD_NUMBER")
-group = "com.stevenrs11.dimdoors" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "DimensionalDoors"
+
+///////////////////////////////////////////////////
+// IDE Settings
+///////////////////////////////////////////////////
+idea {
+    project {
+        languageLevel = '1.8'
+    }
+}
+
+version = "3.0.0-" + project.modversion
+group = "com.stevenrs11.dimdoors"
+archivesBaseName = "DimensionalDoorsReborn"
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.7.10-10.13.2.1307-1.7.10"
-    runDir = "eclipse"
+    version = project.minecraftversion + "-" + project.forgeversion
+    runDir = "run"
+    mappings = project.mappingversion
+    makeObfSourceJar = false
+	useDepAts = true
+	//replaceIn 'WeWillDealWithThisLater.java'
+	//replace '${version}', project.version
 }
-
-targetCompatibility = '1.6'
-sourceCompatibility = '1.6'
 
 processResources
-        {
-            // this will ensure that this task is redone when the versions change.
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-            // replace stuff in mcmod.info, nothing else
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.info'
+        include '**/*.properties'
 
-                // replace version and mcversion
-                expand 'version':project.version, 'mcversion':project.minecraft.version
-            }
+        // replace version and mcversion
+        expand ([
+                'version':project.version,
+                'mcversion':project.minecraftversion,
+                'forge_version': project.forgeversion,
+                'mod_version': project.version,
+                'minecraft_version': project.minecraftversion
+        ])
+    }
 
-            // copy everything else, thats not the mcmod.info
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
-
-afterEvaluate {
-    allprojects { project ->
-        if (project.plugins.hasPlugin("idea"))
-        {
-            idea { module { inheritOutputDirs = true } }
-        }
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
 
-jar 
-{
+jar {
     manifest {
-        attributes 'FMLAT': 'DimDoors_at.cfg'
+        attributes 'FMLAT': 'dimdoors_at.cfg'
     }
+}
+
+repositories {
+    maven {
+        name 'progwm\'s maven' // JEI
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
+}
+
+dependencies {   
+    deobfCompile "mezz.jei:jei_1.12.1:${project.jeiversion}"
 }
