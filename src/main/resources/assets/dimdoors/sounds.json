@@ -1,15 +1,15 @@
 {
-    "crack": {"category":"hostile", "sounds":[{"name":"crack","stream":false}]},
-    "creepy": {"category":"ambient", "sounds":[{"name":"creepy","stream":true}]},
-    "doorlocked": {"category":"player", "sounds":[{"name":"doorlocked","stream":false}]},
-    "doorlockremoved": {"category":"player", "sounds":[{"name":"doorlockremoved","stream":false}]},
-    "keylock": {"category":"player", "sounds":[{"name":"keylock","stream":false}]},
-    "keyunlock": {"category":"player", "sounds":[{"name":"keyunlock", "stream":false}]},
-    "monk": {"category":"hostile", "sounds":[{"name":"monk", "stream":false}]},
-    "rift": {"category":"master", "sounds":[{"name":"rift", "stream":false}]},
-    "riftclose": {"category":"player", "sounds":[{"name":"riftclose", "stream":false}]},
-    "riftdoor": {"category":"player", "sounds":[{"name":"riftdoor", "stream":false}]},
-    "riftend": {"category":"player", "sounds":[{"name":"riftend", "stream":false}]},
-    "riftstart": {"category":"player", "sounds":[{"name":"riftstart", "stream":false}]},
-    "tearing": {"category":"hostile", "sounds":[{"name":"tearing", "stream":false}]}
+  "crack": { "category": "hostile", "sounds": [ { "name": "dimdoors:crack", "stream": false } ] },
+  "creepy": { "category": "ambient", "sounds": [ { "name": "dimdoors:creepy", "stream": true } ] },
+  "doorlocked": { "category": "player", "sounds": [ { "name": "dimdoors:doorlocked", "stream": false } ] },
+  "doorlockremoved": { "category": "player", "sounds": [ { "name": "dimdoors:doorlockremoved", "stream": false } ] },
+  "keylock": { "category": "player", "sounds": [ { "name": "dimdoors:keylock", "stream": false } ] },
+  "keyunlock": { "category": "player", "sounds": [ { "name": "dimdoors:keyunlock", "stream": false } ] },
+  "monk": { "category": "hostile", "sounds": [ { "name": "dimdoors:monk", "stream": false } ] },
+  "rift": { "category": "master", "sounds": [ { "name": "dimdoors:rift", "stream": false } ] },
+  "riftclose": { "category": "player", "sounds": [ { "name": "dimdoors:riftclose", "stream": false } ] },
+  "riftdoor": { "category": "player", "sounds": [ { "name": "dimdoors:riftdoor", "stream": false } ] },
+  "riftend": { "category": "player", "sounds": [ { "name": "dimdoors:riftend", "stream": false } ] },
+  "riftstart": { "category": "player", "sounds": [ { "name": "dimdoors:riftstart", "stream": false } ] },
+  "tearing": { "category": "hostile", "sounds": [ { "name": "dimdoors:tearing", "stream": false } ] }
 }
