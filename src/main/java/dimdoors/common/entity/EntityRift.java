@@ -15,17 +15,18 @@ public class EntityRift extends Entity { // TODO
 
 	public EntityRift(World worldIn) {
 		super(worldIn);
+		setSize(1, 1);
 	}
 
 	public EntityRift(World worldIn, BlockPos pos) {
-		super(worldIn);
+		this(worldIn);
 		setPosition(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
 	}
 
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		DimDoors.proxy.spawnParticle(CommonProxy.ParticleType.GOGGLE_RIFT, world, getPositionVector(), new Vec3d(rand.nextGaussian() * 0.01D, rand.nextGaussian()  * 0.01D, rand.nextGaussian() * 0.01D));
+		DimDoors.proxy.spawnParticle(CommonProxy.ParticleType.GOGGLE_RIFT, world, getPositionVector().addVector(0, 0.5D, 0), new Vec3d(rand.nextGaussian() * 0.01D, rand.nextGaussian()  * 0.01D, rand.nextGaussian() * 0.01D));
 	}
 
 	@Override
