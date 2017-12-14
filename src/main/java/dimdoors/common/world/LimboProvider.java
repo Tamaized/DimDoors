@@ -118,7 +118,7 @@ public class LimboProvider extends WorldProvider {
 	@Override
 	public boolean canCoordinateBeSpawn(int x, int z) {
 		Block block = world.getBlockState(world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z))).getBlock();
-		return block == DimBlocks.blockLimbo;
+		return block == DimBlocks.unraveledFabric;
 	}
 
 	@Override

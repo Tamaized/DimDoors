@@ -75,11 +75,10 @@ public class DDSaveHandler {
 		File[] dataFiles = dataDirectory.listFiles(dataFileFilter);
 		for (File dataFile : dataFiles) {
 			PackedDimData packedDim = readDimension(dataFile, reader);
-			if (packedDim == null) {
-				throw new IllegalStateException("The DD data for " + dataFile.getName().replace(".txt", "") + " at " + dataFile.getPath() + " is corrupted. Please report this on the MCF or on the DD github issues tracker.");
-			}
-			packedDims.put(packedDim.ID, packedDim);
-
+			if (packedDim == null)
+				DimDoors.LOGGER.error("The DD data for " + dataFile.getName().replace(".txt", "") + " at " + dataFile.getPath() + " is corrupted. Please report this on the MCF or on the DD github issues tracker.");
+			else
+				packedDims.put(packedDim.ID, packedDim);
 		}
 
 		List<PackedLinkData> linksToUnpack = new ArrayList<PackedLinkData>();
@@ -147,7 +146,7 @@ public class DDSaveHandler {
 			}
 		}
 		if (isMissing) {
-			packedDim = (new PackedDimData(packedDim.ID, packedDim.Depth, packedDim.PackDepth, packedDim.ParentID, packedDim.RootID, packedDim.Orientation, packedDim.dimensionType, packedDim.IsFilled, packedDim.DungeonData, packedDim.Origin, children, packedDim.Links, packedDim.Tails));
+			packedDim = (new PackedDimData(packedDim.ID, packedDim.Depth, packedDim.PackDepth, packedDim.ParentID, packedDim.RootID, packedDim.Orientation, DimType.getTypeFromIndex(packedDim.DimensionType), packedDim.IsFilled, packedDim.DungeonData, packedDim.Origin, children, packedDim.Links, packedDim.Tails));
 			packedDims.put(packedDim.ID, packedDim);
 		}
 		return children;
@@ -164,7 +163,7 @@ public class DDSaveHandler {
 	public static void verifyParents(PackedDimData packedDim, HashMap<Integer, PackedDimData> packedDims) {
 		List<Integer> fosterChildren = Lists.newArrayList();
 		fosterChildren.add(packedDim.ID);
-		DimType type = packedDim.dimensionType;
+		DimType type = DimType.getTypeFromIndex(packedDim.DimensionType);
 		//fix pockets without parents
 		if (!packedDims.containsKey(packedDim.ParentID)) {
 			//Fix the orphan by changing its root to its parent, re-connecting it to the list
@@ -320,7 +319,7 @@ public class DDSaveHandler {
 
 			// If the save file already exists, back it up.
 			if (saveFile.exists()) {
-				Files.move(saveFile, new File(backupPath + dimension.name() + ".txt"));
+				Files.copy(saveFile, new File(backupPath + dimension.name() + ".txt"));
 			}
 
 			writer.writeToFile(saveFile, dimension.pack());

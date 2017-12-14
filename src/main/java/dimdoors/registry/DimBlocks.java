@@ -2,7 +2,14 @@ package dimdoors.registry;
 
 import com.google.common.collect.Lists;
 import dimdoors.DimDoors;
+import dimdoors.common.blocks.BaseDoor;
+import dimdoors.common.blocks.BlockGoldDimDoor;
 import dimdoors.common.blocks.BlockUnraveledFabric;
+import dimdoors.common.blocks.DimensionalDoor;
+import dimdoors.common.blocks.PersonalDimDoor;
+import dimdoors.common.blocks.TransientDoor;
+import dimdoors.common.blocks.UnstableDoor;
+import dimdoors.common.blocks.WarpDoor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -40,8 +47,8 @@ public class DimBlocks {
 	public static final Block goldenDimensionalDoor = Blocks.AIR;
 	@GameRegistry.ObjectHolder("unstable_door")
 	public static final Block unstableDoor = Blocks.AIR;
-	@GameRegistry.ObjectHolder("limbo")
-	public static final Block blockLimbo = Blocks.AIR;
+	@GameRegistry.ObjectHolder("unraveled_fabric")
+	public static final Block unraveledFabric = Blocks.AIR;
 	@GameRegistry.ObjectHolder("dimensional_door")
 	public static final Block dimensionalDoor = Blocks.AIR;
 	@GameRegistry.ObjectHolder("block_dim_wall")
@@ -50,32 +57,29 @@ public class DimBlocks {
 	public static final Block transTrapdoor = Blocks.AIR;
 	@GameRegistry.ObjectHolder("block_dim_wall_perm")
 	public static final Block blockDimWallPerm = Blocks.AIR;
-	@GameRegistry.ObjectHolder("block_rift")
-	public static final Block blockRift = Blocks.AIR;
 	private static final List<Item> itemblocks = Lists.newArrayList();
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		IForgeRegistry<Block> reg = event.getRegistry();
-		reg.register(new Block(Material.ROCK, MapColor.QUARTZ).setRegistryName("quartz_door"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("personal_dim_door"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("transient_door"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("warp_door"));
-//		reg.register(new Block(Material.IRON, MapColor.GOLD).setRegistryName("golden_door"));
-//		reg.register(new Block(Material.IRON, MapColor.GOLD).setRegistryName("golden_dimensional_door"));
-//		reg.register(new Block(Material.IRON, MapColor.DIAMOND).setRegistryName("unstable_door"));
-		reg.register(new BlockUnraveledFabric().setRegistryName("unraveledfabric").setUnlocalizedName("unraveledfabric").setHardness(0.2F).setLightLevel(0.0F));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("dimensional_door"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("block_dim_wall"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("trans_trapdoor"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("block_dim_wall_perm"));
-//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("block_rift"));
+		reg.register(new BaseDoor(Material.ROCK, DimItems.itemQuartzDoor).setRegistryName("quartz_door"));
+		reg.register(new PersonalDimDoor(Material.IRON).setRegistryName("personal_dim_door"));
+		reg.register(new TransientDoor(Material.IRON).setRegistryName("transient_door"));
+		reg.register(new WarpDoor(Material.IRON).setRegistryName("warp_door"));
+		reg.register(new BaseDoor(Material.IRON, DimItems.itemGoldenDoor).setRegistryName("golden_door"));
+		reg.register(new BlockGoldDimDoor(Material.IRON, DimItems.itemGoldenDimensionalDoor).setRegistryName("golden_dimensional_door"));
+		reg.register(new UnstableDoor(Material.IRON).setRegistryName("unstable_door"));
+		reg.register(new BlockUnraveledFabric().setRegistryName("unraveled_fabric").setUnlocalizedName("unraveled_fabric").setHardness(0.2F).setLightLevel(0.0F));
+		reg.register(new DimensionalDoor(Material.IRON, DimItems.itemDimensionalDoor).setRegistryName("dimensional_door"));
+//				reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("block_dim_wall"));
+		//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("trans_trapdoor"));
+		//		reg.register(new Block(Material.IRON, MapColor.IRON).setRegistryName("block_dim_wall_perm"));
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> reg = event.getRegistry();
-		registerItemBlock(reg, blockLimbo);
+		registerItemBlock(reg, unraveledFabric);
 	}
 
 	@SubscribeEvent

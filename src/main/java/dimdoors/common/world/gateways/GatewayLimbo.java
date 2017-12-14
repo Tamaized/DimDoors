@@ -19,7 +19,7 @@ public class GatewayLimbo extends BaseGateway {
 
 	@Override
 	public boolean generate(World world, int x, int y, int z) {
-		IBlockState state = DimBlocks.blockLimbo.getDefaultState();
+		IBlockState state = DimBlocks.unraveledFabric.getDefaultState();
 		BlockPos pos = new BlockPos(x, y, z);
 		// Build the gateway out of Unraveled Fabric. Since nearly all the blocks in Limbo are of
 		// that type, there is no point replacing the ground.

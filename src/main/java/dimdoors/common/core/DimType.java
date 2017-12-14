@@ -21,19 +21,8 @@ public enum DimType {
 		this.isPocket = isPocket;
 	}
 
-	/**
-	 * Get the DimensionType given an index. I feel like there should be a better way to do this.
-	 *
-	 * @param index
-	 * @return
-	 */
 	public static DimType getTypeFromIndex(int index) {
-		for (DimType type : values) {
-			if (type.index == index) {
-				return type;
-			}
-		}
-		return null;
+		return index > 0 && index < values.length ? values[index] : ROOT;
 	}
 
 	public boolean isPocketDimension() {

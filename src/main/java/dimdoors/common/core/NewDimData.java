@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import dimdoors.common.dungeon.DungeonData;
 import dimdoors.common.dungeon.pack.DungeonPack;
+import dimdoors.common.entity.EntityRift;
 import dimdoors.common.saving.IPackable;
 import dimdoors.common.saving.PackedDimData;
 import dimdoors.common.saving.PackedDungeonData;
@@ -150,7 +151,7 @@ public abstract class NewDimData implements IPackable<PackedDimData> {
 			for (j = -range; j <= range; j++) {
 				for (k = -range; k <= range; k++) {
 					distance = getAbsoluteSum(i, j, k);
-					if (distance > 0 && distance < minDistance && world.getBlockState(pos.add(i, j, k)).getBlock() == DimBlocks.blockRift) {
+					if (distance > 0 && distance < minDistance && EntityRift.isThereARiftAt(world, pos.add(i, j, k))) {
 						link = getLink(pos.add(i, j, k));
 						if (link != null) {
 							nearest = link;
@@ -181,7 +182,7 @@ public abstract class NewDimData implements IPackable<PackedDimData> {
 			for (j = -range; j <= range; j++) {
 				for (k = -range; k <= range; k++) {
 					distance = getAbsoluteSum(i, j, k);
-					if (distance > 0 && world.getBlockState(pos.add(i, j, k)).getBlock() == DimBlocks.blockRift) {
+					if (distance > 0 && EntityRift.isThereARiftAt(world, pos.add(i, j, k))) {
 						link = getLink(pos.add(i, j, k));
 						if (link != null) {
 							links.add(link);
@@ -192,6 +193,10 @@ public abstract class NewDimData implements IPackable<PackedDimData> {
 		}
 
 		return links;
+	}
+
+	public DimLink createLink(BlockPos pos, LinkType linkType, int orientation) {
+		return createLink(new DimensionPos(pos, id), linkType, orientation, null);
 	}
 
 	public DimLink createLink(int x, int y, int z, LinkType linkType, int orientation) {
@@ -450,6 +455,10 @@ public abstract class NewDimData implements IPackable<PackedDimData> {
 		this.origin = incoming.destination();
 		this.orientation = orientation;
 		this.modified = true;
+	}
+
+	public void setLinkDestination(DimLink incoming, BlockPos pos){
+		setLinkDestination(incoming, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	public void setLinkDestination(DimLink incoming, int x, int y, int z) {

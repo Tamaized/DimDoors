@@ -1,8 +1,12 @@
 package dimdoors;
 
 import dimdoors.common.entity.EntityMonolith;
+import dimdoors.common.entity.EntityRift;
 import dimdoors.common.world.gateways.GatewayGenerator;
 import dimdoors.proxy.CommonProxy;
+import dimdoors.registry.DimItems;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -24,14 +28,23 @@ public class DimDoors {
 	public static final String modid = "dimdoors";
 	public static final Logger LOGGER = LogManager.getLogger(modid);
 	public static final GatewayGenerator gatewayGenerator = new GatewayGenerator();
+	//Path for custom dungeons within configuration directory
+	public static final String CUSTOM_SCHEMATIC_SUBDIRECTORY = "/DimDoors_Custom_schematics";
+	public static final CreativeTabs CREATIVE_TAB = new CreativeTabs("dimDoorsCreativeTab") {
+		@Override
+		public ItemStack getTabIconItem() {
+			return new ItemStack(DimItems.itemDimensionalDoor);
+		}
+	};
 	@SidedProxy(clientSide = "dimdoors.proxy.ClientProxy", serverSide = "dimdoors.proxy.ServerProxy")
 	public static CommonProxy proxy;
 	@Mod.Instance(DimDoors.modid)
 	public static DimDoors instance;
+	private static int modEntityId;
 
 	@Mod.EventHandler
 	public void onPreInitialization(FMLPreInitializationEvent event) {
-		DimDoorsConfig.customSchematicDirectory = event.getModConfigurationDirectory() + DimDoorsConfig.CUSTOM_SCHEMATIC_SUBDIRECTORY;
+		DimDoorsConfig.customSchematicDirectory = event.getModConfigurationDirectory() + CUSTOM_SCHEMATIC_SUBDIRECTORY;
 		proxy.preInit();
 		//		DimDoorsNetwork.init(); TODO
 	}
@@ -49,7 +62,8 @@ public class DimDoors {
 		// Register loot chests
 		//		DDLoot.registerInfo(properties); TODO
 
-		EntityRegistry.registerModEntity(new ResourceLocation(modid, "monolith"), EntityMonolith.class, modid + ".monolith", 0, this, 70, 1, true, 0x0, 0xFFFFFF);
+		EntityRegistry.registerModEntity(new ResourceLocation(modid, "monolith"), EntityMonolith.class, modid + ".monolith", modEntityId++, this, 70, 1, true, 0x0, 0xFFFFFF);
+		EntityRegistry.registerModEntity(new ResourceLocation(modid, "rift"), EntityRift.class, modid + ".rift", modEntityId++, this, 70, 1, true);
 
 		GameRegistry.registerWorldGenerator(gatewayGenerator, 0);
 	}

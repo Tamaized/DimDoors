@@ -69,7 +69,7 @@ public class BlockRift extends Block implements ITileEntityProvider {
 		this.modBlocksImmuneToRift.add(DimBlocks.warpDoor);
 		this.modBlocksImmuneToRift.add(DimBlocks.transTrapdoor);
 		this.modBlocksImmuneToRift.add(DimBlocks.unstableDoor);
-		this.modBlocksImmuneToRift.add(DimBlocks.blockRift);
+//		this.modBlocksImmuneToRift.add(DimBlocks.blockRift);
 		this.modBlocksImmuneToRift.add(DimBlocks.transientDoor);
 		this.modBlocksImmuneToRift.add(DimBlocks.goldenDimensionalDoor);
 		this.modBlocksImmuneToRift.add(DimBlocks.goldenDoor);
@@ -82,7 +82,7 @@ public class BlockRift extends Block implements ITileEntityProvider {
 		this.blocksImmuneToRift.add(DimBlocks.warpDoor);
 		this.blocksImmuneToRift.add(DimBlocks.transTrapdoor);
 		this.blocksImmuneToRift.add(DimBlocks.unstableDoor);
-		this.blocksImmuneToRift.add(DimBlocks.blockRift);
+//		this.blocksImmuneToRift.add(DimBlocks.blockRift);
 		this.blocksImmuneToRift.add(DimBlocks.transientDoor);
 		this.blocksImmuneToRift.add(DimBlocks.goldenDimensionalDoor);
 		this.blocksImmuneToRift.add(DimBlocks.goldenDoor);
@@ -219,11 +219,11 @@ public class BlockRift extends Block implements ITileEntityProvider {
 
 			// Create a child, replace the block with a rift, and consider dropping World Thread
 			IBlockState state = world.getBlockState(target);
-			if (world.setBlockState(target, DimBlocks.blockRift.getDefaultState())) {
+			/*if (world.setBlockState(target, DimBlocks.blockRift.getDefaultState())) {
 				dimension.createChildLink(target, parent);
 				dropWorldThread(state, world, target, random);
 				return true;
-			}
+			}*/ // TODO
 		}
 		return false;
 	}
@@ -259,9 +259,9 @@ public class BlockRift extends Block implements ITileEntityProvider {
 	}
 
 	public boolean tryPlacingRift(World world, BlockPos pos) {
-		if (world != null && !isBlockImmune(world, pos)) {
+		/*if (world != null && !isBlockImmune(world, pos)) {
 			return world.setBlockState(pos, DimBlocks.blockRift.getDefaultState());
-		}
+		}*/ //TODO
 		return false;
 	}
 

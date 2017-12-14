@@ -1,7 +1,6 @@
 package dimdoors.common.items;
 
 import dimdoors.common.blocks.BaseDimDoor;
-import dimdoors.registry.DimBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -16,18 +15,21 @@ import java.util.List;
 
 public class ItemDimensionalDoor extends BaseItemDoor {
 
+	private final Block door;
+
 	public ItemDimensionalDoor(Block block, ItemDoor door) {
 		super(block, door);
+		this.door = block;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(I18n.format("dimdoor.info.dimDoor"));
+		tooltip.add(I18n.format("dimdoor.info." + getUnlocalizedName()));
 	}
 
 	@Override
 	protected BaseDimDoor getDoorBlock() {
-		return (BaseDimDoor) DimBlocks.dimensionalDoor;
+		return (BaseDimDoor) door;
 	}
 }

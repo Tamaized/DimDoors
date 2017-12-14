@@ -2,6 +2,7 @@ package dimdoors.common.saving;
 
 import com.google.common.collect.Lists;
 import dimdoors.DimDoorsConfig;
+import dimdoors.common.entity.EntityRift;
 import dimdoors.registry.DimBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -58,7 +59,7 @@ public class DimData implements Serializable {
 		while (i < range) {
 			while (j < range) {
 				while (k < range) {
-					if (world.getBlockState(new BlockPos(x + i, y + j, z + k)).getBlock() == DimBlocks.blockRift && MathHelper.abs(i) + MathHelper.abs(j) + MathHelper.abs(k) < distance) {
+					if (EntityRift.isThereARiftAt(world, new BlockPos(x + i, y + j, z + k)) && MathHelper.abs(i) + MathHelper.abs(j) + MathHelper.abs(k) < distance) {
 						if (MathHelper.abs(i) + MathHelper.abs(j) + MathHelper.abs(k) != 0) {
 							nearest = this.findLinkAtCoords(x + i, y + j, z + k);
 							distance = MathHelper.abs(i) + MathHelper.abs(j) + MathHelper.abs(k);
@@ -91,7 +92,7 @@ public class DimData implements Serializable {
 		while (i < range) {
 			while (j < range) {
 				while (k < range) {
-					if (world.getBlockState(new BlockPos(x + i, y + j, z + k)).getBlock() == DimBlocks.blockRift) {
+					if (EntityRift.isThereARiftAt(world, new BlockPos(x + i, y + j, z + k))) {
 						if (MathHelper.abs(i) + MathHelper.abs(j) + MathHelper.abs(k) != 0) {
 							nearest = this.findLinkAtCoords(x + i, y + j, z + k);
 							if (nearest != null) {

@@ -72,6 +72,7 @@ public class DimDataProcessor extends BaseConfigurationProcessor<PackedDimData> 
 			outputStream.write(gson.toJson(ele).getBytes("UTF-8"));
 			outputStream.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// not sure if this is kosher, we need it to explode, but not by throwing the IO exception. 
 			throw new ConfigurationProcessingException("Could not access save data");
 		}

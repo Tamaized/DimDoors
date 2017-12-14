@@ -7,11 +7,13 @@ import net.minecraft.util.math.BlockPos;
 import java.util.List;
 
 public class PackedDimData {
+
+	// Dont change casing here, it breaks the json
 	// These fields will be public since this is a simple data container
 	public final static int SAVE_DATA_VERSION_ID = 100;
 	public final long SAVE_DATA_VERSION_ID_INSTANCE = SAVE_DATA_VERSION_ID;
 	public final int ID;
-	public final DimType dimensionType;
+	public final int DimensionType;
 	public final boolean IsFilled;
 	public final int Depth;
 	public final int PackDepth;
@@ -33,7 +35,7 @@ public class PackedDimData {
 		ParentID = parentID;
 		RootID = rootID;
 		Orientation = orientation;
-		dimensionType = type;
+		DimensionType = type.ordinal();
 		IsFilled = isFilled;
 		DungeonData = dungeonData;
 		Origin = origin;

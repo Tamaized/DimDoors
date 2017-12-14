@@ -303,8 +303,8 @@ public class LimboGenerator implements IChunkGenerator {
 
 							for (int var51 = 0; var51 < 4; ++var51) {
 								if ((var47 += var49) > 0.0D) {
-									//									blocks[var43 += var44] = mod_pocketDim.blockLimbo;
-									primer.setBlockState(x, y, z, DimBlocks.blockLimbo.getDefaultState());
+									//									blocks[var43 += var44] = mod_pocketDim.unraveledFabric;
+									primer.setBlockState(x, y, z, DimBlocks.unraveledFabric.getDefaultState());
 								} else if (var12 * 8 + var31 < var6) {
 									//									blocks[var43 += var44] = mod_pocketDim.blockDimWallPerm;
 									primer.setBlockState(x, y, z, DimBlocks.blockDimWallPerm.getDefaultState());

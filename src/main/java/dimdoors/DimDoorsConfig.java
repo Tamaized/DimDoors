@@ -119,9 +119,6 @@ public class DimDoorsConfig {
 
 	public static String customSchematicDirectory = "";
 
-	//Path for custom dungeons within configuration directory
-	public static final String CUSTOM_SCHEMATIC_SUBDIRECTORY = "/DimDoors_Custom_schematics";
-
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 		if (event.getModID().equals(DimDoors.modid))

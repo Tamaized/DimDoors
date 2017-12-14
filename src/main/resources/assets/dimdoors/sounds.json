@@ -11,5 +11,7 @@
   "riftdoor": { "category": "player", "sounds": [ { "name": "dimdoors:riftdoor", "stream": false } ] },
   "riftend": { "category": "player", "sounds": [ { "name": "dimdoors:riftend", "stream": false } ] },
   "riftstart": { "category": "player", "sounds": [ { "name": "dimdoors:riftstart", "stream": false } ] },
-  "tearing": { "category": "hostile", "sounds": [ { "name": "dimdoors:tearing", "stream": false } ] }
+  "tearing": { "category": "hostile", "sounds": [ { "name": "dimdoors:tearing", "stream": false } ] },
+  "riftend": { "category": "player", "sounds": [ { "name": "dimdoors:riftend", "stream": false } ] },
+  "riftstart": { "category": "player", "sounds": [ { "name": "dimdoors:riftstart", "stream": false } ] }
 }

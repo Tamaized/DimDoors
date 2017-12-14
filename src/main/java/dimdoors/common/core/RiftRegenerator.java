@@ -92,7 +92,7 @@ public class RiftRegenerator {
 		if (!world.getChunkProvider().isChunkGeneratedAt(x >> 4, z >> 4))
 			return;
 
-		if (DimBlocks.blockRift instanceof BlockRift) {
+		/*if (DimBlocks.blockRift instanceof BlockRift) { //TODO
 			BlockRift rift = (BlockRift) DimBlocks.blockRift;
 			// If the location is occupied by an immune DD block, then don't regenerate.
 			if (rift.isModBlockImmune(world, location))
@@ -107,7 +107,7 @@ public class RiftRegenerator {
 				if (world.setBlockState(location, DimBlocks.blockRift.getDefaultState()))
 					rift.dropWorldThread(state, world, location, random);
 			}
-		}
+		}*/
 	}
 
 }

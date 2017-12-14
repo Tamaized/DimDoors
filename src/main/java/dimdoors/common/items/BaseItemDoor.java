@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import dimdoors.common.blocks.BaseDimDoor;
 import dimdoors.common.core.DimLink;
 import dimdoors.common.core.PocketManager;
+import dimdoors.common.entity.EntityRift;
 import dimdoors.common.tileentity.TileEntityDimDoor;
 import dimdoors.common.util.DimensionPos;
 import dimdoors.registry.DimBlocks;
@@ -97,7 +98,7 @@ public abstract class BaseItemDoor extends ItemDoor {
 
 		RayTraceResult hit = BaseItemDoor.doRayTrace(player.world, player, true);
 		if (hit != null) {
-			if (world.getBlockState(hit.getBlockPos()).getBlock() == DimBlocks.blockRift) {
+			if (EntityRift.isThereARiftAt(world, hit.getBlockPos())) { //TODO: NEEDS TO BE AN ENTITY RAYTRACE
 				DimLink link = PocketManager.getLink(new DimensionPos(hit.getBlockPos(), world.provider.getDimension()));
 				if (link != null) {
 
@@ -124,7 +125,7 @@ public abstract class BaseItemDoor extends ItemDoor {
 
 	public static boolean canPlace(World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
-		return (state.getBlock() == DimBlocks.blockRift || world.isAirBlock(pos) || state.getMaterial().isReplaceable());
+		return (EntityRift.isThereARiftAt(world, pos) || world.isAirBlock(pos) || state.getMaterial().isReplaceable());
 	}
 
 	/**

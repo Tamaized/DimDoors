@@ -103,7 +103,7 @@ public class PocketManager {
 
 	public static boolean registerPackedDimData(PackedDimData packedData) {
 		InnerDimData dimData;
-		DimType type = packedData.dimensionType;
+		DimType type = DimType.getTypeFromIndex(packedData.DimensionType);
 		if (type == null) {
 			throw new IllegalArgumentException("Invalid dimension type");
 		}

@@ -6,6 +6,7 @@ import dimdoors.common.blocks.BlockRift;
 import dimdoors.common.core.DimLink;
 import dimdoors.common.core.NewDimData;
 import dimdoors.common.core.PocketManager;
+import dimdoors.common.entity.EntityRift;
 import dimdoors.common.util.DimensionPos;
 import dimdoors.common.watcher.ClientLinkData;
 import dimdoors.registry.DimBlocks;
@@ -61,7 +62,7 @@ public class TileEntityRift extends DDTileEntityBase implements ITickable {
 	@Override
 	public void update() {
 		if (PocketManager.getLink(new DimensionPos(pos, world.provider.getDimension())) == null) {
-			if (world.getBlockState(pos).getBlock() == DimBlocks.blockRift) {
+			if (EntityRift.isThereARiftAt(world, pos)) {
 				world.setBlockToAir(pos);
 			} else {
 				invalidate();
@@ -69,7 +70,7 @@ public class TileEntityRift extends DDTileEntityBase implements ITickable {
 			return;
 		}
 
-		if (world.getBlockState(pos).getBlock() != DimBlocks.blockRift) {
+		if (!EntityRift.isThereARiftAt(world, pos)) {
 			invalidate();
 			return;
 		}
@@ -206,8 +207,8 @@ public class TileEntityRift extends DDTileEntityBase implements ITickable {
 		if (nearRifts == 0 || random.nextInt(nearRifts) == 0) {
 			return;
 		}
-		if (DimBlocks.blockRift instanceof BlockRift)
-			((BlockRift) DimBlocks.blockRift).spreadRift(dimension, link, world, random);
+//		if (DimBlocks.blockRift instanceof BlockRift)
+//			((BlockRift) DimBlocks.blockRift).spreadRift(dimension, link, world, random);TODO
 	}
 
 	@Override
