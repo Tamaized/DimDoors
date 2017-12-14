@@ -4,20 +4,20 @@ import net.minecraft.util.math.BlockPos;
 
 public class DimensionPos extends BlockPos {
 
-	private int dim;
+	private int dimension;
 
 	public DimensionPos(int x, int y, int z, int d) {
 		super(x, y, z);
-		dim = d;
+		dimension = d;
 	}
 
 	public DimensionPos(BlockPos pos, int d) {
 		super(pos);
-		dim = d;
+		dimension = d;
 	}
 
 	public int getDimension() {
-		return dim;
+		return dimension;
 	}
 
 	public BlockPos getBlockPos() {

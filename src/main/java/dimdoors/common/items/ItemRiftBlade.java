@@ -1,9 +1,11 @@
 package dimdoors.common.items;
 
 
+import com.google.common.collect.Sets;
 import dimdoors.DimDoors;
 import dimdoors.common.core.PocketManager;
 import dimdoors.common.entity.EntityRift;
+import dimdoors.common.helpers.RayTraceHelper;
 import dimdoors.registry.DimBlocks;
 import dimdoors.registry.DimItems;
 import dimdoors.registry.DimSounds;
@@ -20,7 +22,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -37,7 +39,7 @@ public class ItemRiftBlade extends ItemSword {
 
 	public ItemRiftBlade() {
 		super(ToolMaterial.DIAMOND);
-		//		this.setCreativeTab(mod_pocketDim.dimDoorsCreativeTab); TODO
+		this.setCreativeTab(DimDoors.CREATIVE_TAB);
 	}
 
 	@Override
@@ -88,9 +90,8 @@ public class ItemRiftBlade extends ItemSword {
 		}
 		var7 = var15;
 
-
 		holder.setPositionAndUpdate(var5, var7, var9);
-		holder.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
+		holder.world.playSound(null, holder.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
 		return true;
 	}
@@ -100,39 +101,36 @@ public class ItemRiftBlade extends ItemSword {
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!world.isRemote) {
-			List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.posX - 10, player.posY - 10, player.posZ - 10, player.posX + 10, player.posY + 10, player.posZ + 10));
-			list.remove(player);
-
-			for (EntityLivingBase ent : list) {
-				Vec3d var3 = player.getLook(1.0F).normalize();
-				Vec3d var4 = new Vec3d(ent.posX - player.posX, ent.getEntityBoundingBox().minY + (ent.height) / 2.0F - (player.posY + player.getEyeHeight()), ent.posZ - player.posZ);
-				double var5 = var4.lengthVector();
-				var4 = var4.normalize();
-				double var7 = var3.dotProduct(var4);
-				if ((var7 + 0.1D) > 1.0D - 0.025D / var5 && player.canEntityBeSeen(ent)) {
-					teleportToEntity(stack, ent, player);
-					stack.damageItem(3, player);
-					return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-				}
-			}
-
-			RayTraceResult hit = this.rayTrace(world, player, false);
-			if (hit != null && hit.typeOfHit == RayTraceResult.Type.BLOCK) { // TODO: needs to be an entity raytrace
-				if (EntityRift.isThereARiftAt(world, hit.getBlockPos())) {
-					if (PocketManager.getLink(hit.getBlockPos(), world) != null) {
-						if (player.canPlayerEdit(hit.getBlockPos(), hit.sideHit, stack) && player.canPlayerEdit(hit.getBlockPos().up(), hit.sideHit, stack)) {
+			RayTraceResult raytrace = RayTraceHelper.tracePath(world, player, 10, 1, Sets.newHashSet(player));
+			if (raytrace != null && raytrace.typeOfHit == RayTraceResult.Type.ENTITY) {
+				if (raytrace.entityHit instanceof EntityRift) {
+					BlockPos pos = new BlockPos(raytrace.entityHit);
+					if (PocketManager.getLink(pos, world) != null) {
+						Vec3d[] vecs = RayTraceHelper.getPlayerTraceVec(player, 10);
+						RayTraceResult facetrace = raytrace.entityHit.getEntityBoundingBox().calculateIntercept(vecs[0], vecs[1]);
+						if (facetrace == null)
+							return ActionResult.newResult(EnumActionResult.PASS, stack);
+						raytrace.sideHit = facetrace.sideHit;
+						if (player.canPlayerEdit(pos, raytrace.sideHit, stack) && player.canPlayerEdit(pos.up(), raytrace.sideHit, stack)) {
 							int orientation = MathHelper.floor((player.rotationYaw + 180.0F) * 4.0F / 360.0F - 0.5D) & 3;
 
-							if (BaseItemDoor.canPlace(world, hit.getBlockPos()) && BaseItemDoor.canPlace(world, hit.getBlockPos().down())) {
-								ItemDimensionalDoor.placeDoor(world, hit.getBlockPos().down(), EnumFacing.VALUES[orientation], DimBlocks.transientDoor, false);
+							if (BaseItemDoor.canPlace(world, pos) && BaseItemDoor.canPlace(world, pos.down())) {
+								ItemDimensionalDoor.placeDoor(world, pos.down(), EnumFacing.VALUES[orientation], DimBlocks.transientDoor, false);
 								player.playSound(DimSounds.riftdoor, 0.6F, 1.0F);
 								stack.damageItem(3, player);
 								return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 							}
 						}
 					}
+				} else if (raytrace.entityHit instanceof EntityLivingBase) {
+					if (player.canEntityBeSeen(raytrace.entityHit)) {
+						teleportToEntity(stack, raytrace.entityHit, player);
+						stack.damageItem(3, player);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+					}
 				}
 			}
+
 			player.setActiveHand(hand);
 		}
 		return ActionResult.newResult(EnumActionResult.PASS, stack);

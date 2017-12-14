@@ -23,10 +23,19 @@ public class EntityRift extends Entity { // TODO
 		setPosition(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
 	}
 
+	public static boolean isThereARiftAt(World world, BlockPos pos) {
+		return !world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1))).isEmpty();
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		DimDoors.proxy.spawnParticle(CommonProxy.ParticleType.GOGGLE_RIFT, world, getPositionVector().addVector(0, 0.5D, 0), new Vec3d(rand.nextGaussian() * 0.01D, rand.nextGaussian()  * 0.01D, rand.nextGaussian() * 0.01D));
+		DimDoors.proxy.spawnParticle(CommonProxy.ParticleType.GOGGLE_RIFT, world, getPositionVector().addVector(0, 0.5D, 0), new Vec3d(rand.nextGaussian() * 0.01D, rand.nextGaussian() * 0.01D, rand.nextGaussian() * 0.01D));
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return true;
 	}
 
 	@Override
@@ -42,9 +51,5 @@ public class EntityRift extends Entity { // TODO
 	@Override
 	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
-	}
-
-	public static boolean isThereARiftAt(World world, BlockPos pos){
-		return !world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1))).isEmpty();
 	}
 }
